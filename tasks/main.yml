@@ -1,0 +1,44 @@
+---
+
+#- name: Install rsyslog
+#  yum: name={{ item }} state=installed
+#  with_items:
+#   - rsyslog
+
+- name: rsyslog.conf template
+  template: 
+    src: rsyslog.conf.j2
+    dest: /etc/rsyslog.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  notify: svc restart rsyslog
+
+- name: rsyslog.d absent
+  file:
+    dest: "/etc/rsyslog.d/{{item}}.conf"
+    state: absent
+  with_items: rsyslog_d_absent
+  notify: svc restart rsyslog
+
+- name: rsyslog.d templates
+  template:
+    src: "{{item}}.j2"
+    dest: "/etc/rsyslog.d/{{item}}"
+    owner: root
+    group: root
+    mode: 0664
+  with_items: rsyslog_d
+  notify: svc restart rsyslog
+
+- name: rsyslog.d gists
+  get_url:
+    url: "{{ item.url }}"
+    dest: "/etc/rsyslog.d/{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0664
+  with_items: rsyslog_d_gists
+  notify: svc restart rsyslog
+
