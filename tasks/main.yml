@@ -34,7 +34,7 @@
 
 - name: rsyslog.d gists
   get_url:
-    url: "https://gist.githubusercontent.com/{{item.user}}/{{item.gist}}/raw"
+    url: "https://gist.githubusercontent.com/{{item.gist}}/raw"
     dest: "/etc/rsyslog.d/{{ item.dest }}"
     owner: root
     group: root
