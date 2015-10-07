@@ -29,7 +29,17 @@
     owner: root
     group: root
     mode: 0664
-  with_items: rsyslog_d
+  with_items: rsyslog_d_templates
+  notify: svc restart rsyslog
+
+- name: rsyslog.d files
+  copy:
+    src: {{item.src}}
+    dest: "/etc/rsyslog.d/{{item.name}}"
+    owner: root
+    group: root
+    mode: 0664
+  with_items: rsyslog_d_files
   notify: svc restart rsyslog
 
 - name: rsyslog.d gists

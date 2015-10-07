@@ -1,5 +1,6 @@
 ---
 
 rsyslog_d_absent: []
-rsyslog_d: []
+rsyslog_d_files: []
+rsyslog_d_templates: []
 rsyslog_d_gists: []
