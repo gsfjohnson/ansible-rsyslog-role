@@ -34,7 +34,7 @@
 
 - name: rsyslog.d files
   copy:
-    src: {{item.src}}
+    src: "{{item.src}}"
     dest: "/etc/rsyslog.d/{{item.name}}"
     owner: root
     group: root
