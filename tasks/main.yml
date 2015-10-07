@@ -7,12 +7,12 @@
 
 - name: rsyslog.conf template
   template: 
-    src: rsyslog.conf.j2
-    dest: /etc/rsyslog.conf
-    owner: root
-    group: root
-    mode: 0644
-    backup: yes
+    src=rsyslog-{{ansible_distribution}}-{{ansible_distribution_major_version}}.conf.j2
+    dest=/etc/rsyslog.conf
+    owner=root
+    group=root
+    mode=0644
+    backup=yes
   notify: svc restart rsyslog
 
 - name: rsyslog.d absent
