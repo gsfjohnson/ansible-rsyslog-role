@@ -1,0 +1,56 @@
+---
+
+- include: setup-RedHat.yml
+  when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+- name: rsyslog.conf template
+  template: 
+    src=rsyslog-{{ansible_distribution}}-{{ansible_distribution_major_version}}.conf.j2
+    dest=/etc/rsyslog.conf
+    owner=root
+    group=root
+    mode=0644
+    backup=yes
+  notify: svc restart rsyslog
+
+- name: rsyslog.d absent
+  file:
+    dest: "/etc/rsyslog.d/{{item}}.conf"
+    state: absent
+  with_items: rsyslog_d_absent
+  when: ansible_distribution_major_version > 5
+  notify: svc restart rsyslog
+
+- name: rsyslog.d templates
+  template:
+    src: "{{item}}.j2"
+    dest: "/etc/rsyslog.d/{{item}}"
+    owner: root
+    group: root
+    mode: 0664
+  with_items: rsyslog_d_templates
+  when: ansible_distribution_major_version > 5
+  notify: svc restart rsyslog
+
+- name: rsyslog.d files
+  copy:
+    src: "{{item.src}}"
+    dest: "/etc/rsyslog.d/{{item.name}}"
+    owner: root
+    group: root
+    mode: 0664
+  with_items: rsyslog_d_files
+  when: ansible_distribution_major_version > 5
+  notify: svc restart rsyslog
+
+#- name: rsyslog.d gists
+#  get_url:
+#    url: "https://gist.githubusercontent.com/{{item.gist}}/raw"
+#    dest: "/etc/rsyslog.d/{{ item.dest }}"
+#    owner: root
+#    group: root
+#    mode: 0664
+#  with_items: rsyslog_d_gists
+#  when: ansible_distribution_major_version > 5
+#  notify: svc restart rsyslog
+
