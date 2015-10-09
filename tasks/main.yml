@@ -1,10 +1,5 @@
 ---
 
-#- name: Install rsyslog
-#  yum: name={{ item }} state=installed
-#  with_items:
-#   - rsyslog
-
 - name: rsyslog.conf template
   template: 
     src=rsyslog-{{ansible_distribution}}-{{ansible_distribution_major_version}}.conf.j2
@@ -20,6 +15,7 @@
     dest: "/etc/rsyslog.d/{{item}}.conf"
     state: absent
   with_items: rsyslog_d_absent
+  when: ansible_distribution_major_version > 5
   notify: svc restart rsyslog
 
 - name: rsyslog.d templates
@@ -30,6 +26,7 @@
     group: root
     mode: 0664
   with_items: rsyslog_d_templates
+  when: ansible_distribution_major_version > 5
   notify: svc restart rsyslog
 
 - name: rsyslog.d files
@@ -40,6 +37,7 @@
     group: root
     mode: 0664
   with_items: rsyslog_d_files
+  when: ansible_distribution_major_version > 5
   notify: svc restart rsyslog
 
 - name: rsyslog.d gists
@@ -50,5 +48,6 @@
     group: root
     mode: 0664
   with_items: rsyslog_d_gists
+  when: ansible_distribution_major_version > 5
   notify: svc restart rsyslog
 
