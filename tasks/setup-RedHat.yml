@@ -1,7 +1,8 @@
 ---
 
-- include: setup-RedHat.yml
-  when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+- name: install pkg
+  yum: pkg=rsyslog state=installed
+  when: rsyslog_install
 
 - name: rsyslog.conf template
   template: 
@@ -53,4 +54,17 @@
 #  with_items: rsyslog_d_gists
 #  when: ansible_distribution_major_version > 5
 #  notify: svc restart rsyslog
+
+- name: disable sysklogd
+  service:
+    name=syslog
+    state=stopped
+    enabled=no
+  when: ansible_distribution_major_version == "5" and rsyslog_disable_sysklogd
+
+- name: svc enable, start
+  service:
+    name=rsyslog
+    state={{rsyslog_svc_state}}
+    enabled={{rsyslog_svc_enabled}}
 

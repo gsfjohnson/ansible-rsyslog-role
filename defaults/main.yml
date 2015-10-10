@@ -4,3 +4,9 @@ rsyslog_d_absent: []
 rsyslog_d_files: []
 rsyslog_d_templates: []
 rsyslog_d_gists: []
+
+rsyslog_install: yes
+rsyslog_svc_state: started
+rsyslog_svc_enabled: yes
+
+rsyslog_disable_sysklogd: false
