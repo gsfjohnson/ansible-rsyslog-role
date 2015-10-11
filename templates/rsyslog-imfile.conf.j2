@@ -1,0 +1,14 @@
+#### MODULES ####
+
+$ModLoad imfile.so      # provides logging files remotely
+
+#### GLOBAL DIRECTIVES ####
+
+{% for f in rsyslog_imfile %}
+$InputFileName {{f.file}}
+$InputFileFacility {{f.facility}}
+$InputFileTag {{f.tag}}
+$InputFileStateFile state-{{f.name}}
+$InputRunFileMonitor
+
+{% endfor %}

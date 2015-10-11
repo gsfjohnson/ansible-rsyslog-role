@@ -55,6 +55,16 @@
 #  when: ansible_distribution_major_version > 5
 #  notify: svc restart rsyslog
 
+- name: rsyslog.d imfile
+  template:
+    src: "rsyslog-imfile.conf.j2"
+    dest: "/etc/rsyslog.d/rsyslog-imfile.conf"
+    owner: root
+    group: root
+    mode: 0664
+  when: ansible_distribution_major_version > 5 and rsyslog_imfile
+  notify: svc restart rsyslog
+
 - name: rsyslog.d dests
   template:
     src: "rsyslog-dest.conf.j2"
@@ -63,7 +73,7 @@
     group: root
     mode: 0664
   with_items: rsyslog_dest
-  when: ansible_distribution_major_version > 5
+  when: ansible_distribution_major_version > 5 and rsyslog_dest
   notify: svc restart rsyslog
 
 
