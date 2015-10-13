@@ -36,7 +36,7 @@ $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 $IncludeConfig /etc/rsyslog.d/*.conf
 {% for inc in rsyslog_includes %}
 
-# {{inc.desc}}
+# {{ inc.desc | default(Omit) }}
 $IncludeConfig {{inc.file}}
 {% endfor %}
 
@@ -51,8 +51,14 @@ $IMJournalStateFile imjournal.state
 #### RULES ####
 {% for rule in rsyslog_rules %}
 
-# {{rule.desc}}
-{{rule.filter}}      {{rule.dest}}
+# {{ rule.desc | default(Omit) }}
+{{"%-56s %s" | format(rule.filter,rule.dest) }}
+{% endfor %}
+
+{% for rule in rsyslog_rules %}
+
+# {{ rule.desc | default(Omit) }}
+{{"%-56s %s" | format(rule.filter,rule.dest) }}
 {% endfor %}
 
 {% if rsyslog_rule_emerg %}

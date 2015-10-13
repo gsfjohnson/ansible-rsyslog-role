@@ -27,10 +27,25 @@ $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 # not useful and an extreme performance hit
 $ActionFileEnableSync on
 
+{% for inc in rsyslog_includes %}
+
+# {{ inc.desc | default(Omit) }}
+$IncludeConfig {{inc.file}}
+{% endfor %}
+
 
 #### RULES ####
+{% for rule in rsyslog_rules %}
 
-$IncludeConfig /etc/syslog.conf
+# {{ rule.desc | default(Omit) }}
+{{"%-56s %s" | format(rule.filter,rule.dest) }}
+{% endfor %}
+
+{% if rsyslog_rule_emerg %}
+# Everybody gets emergency messages
+*.emerg                                                 *
+{% endif %}
+
 
 # ### begin forwarding rule ###
 # The statement between the begin ... end define a SINGLE forwarding

@@ -31,7 +31,7 @@ $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 $IncludeConfig /etc/rsyslog.d/*.conf
 {% for inc in rsyslog_includes %}
 
-# {{inc.desc}}
+# {{ inc.desc | default(Omit) }}
 $IncludeConfig {{inc.file}}
 {% endfor %}
 
@@ -39,13 +39,13 @@ $IncludeConfig {{inc.file}}
 #### RULES ####
 {% for rule in rsyslog_rules %}
 
-# {{rule.desc}}
-{{rule.filter}}      {{rule.dest}}
+# {{ rule.desc | default(Omit) }}
+{{"%-56s %s" | format(rule.filter,rule.dest) }}
 {% endfor %}
 
 {% if rsyslog_rule_emerg %}
 # Everybody gets emergency messages
-*.emerg      *
+*.emerg                                                 *
 {% endif %}
 
 # ### begin forwarding rule ###
