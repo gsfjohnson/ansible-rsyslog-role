@@ -6,7 +6,7 @@ rsyslog_d_templates: []
 rsyslog_d_gists: []
 rsyslog_dest:
 rsyslog_imfile:
-rsyslog_includes:
+rsyslog_includes: []
 rsyslog_rules:
   - filter: "#kern.*"
     dest: "/dev/console"
