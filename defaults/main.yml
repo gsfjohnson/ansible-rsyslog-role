@@ -18,7 +18,7 @@ rsyslog_rules:
 
   - filter: "authpriv.*"
     dest: "/var/log/secure"
-    dest: "The authpriv file has restricted access."
+    desc: "The authpriv file has restricted access."
 
   - filter: "mail.*"
     dest: "-/var/log/maillog"
