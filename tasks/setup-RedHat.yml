@@ -19,7 +19,7 @@
     dest: "/etc/rsyslog.d/{{item}}.conf"
     state: absent
   with_items: rsyslog_d_absent
-  when: ansible_distribution_major_version > 5
+  when: ansible_distribution_major_version|int > 5
   notify: svc restart rsyslog
 
 - name: rsyslog.d templates
@@ -30,7 +30,7 @@
     group: root
     mode: 0664
   with_items: rsyslog_d_templates
-  when: ansible_distribution_major_version > 5
+  when: ansible_distribution_major_version|int > 5
   notify: svc restart rsyslog
 
 - name: rsyslog.d files
@@ -41,7 +41,7 @@
     group: root
     mode: 0664
   with_items: rsyslog_d_files
-  when: ansible_distribution_major_version > 5
+  when: ansible_distribution_major_version|int > 5
   notify: svc restart rsyslog
 
 #- name: rsyslog.d gists
@@ -52,7 +52,7 @@
 #    group: root
 #    mode: 0664
 #  with_items: rsyslog_d_gists
-#  when: ansible_distribution_major_version > 5
+#  when: ansible_distribution_major_version|int > 5
 #  notify: svc restart rsyslog
 
 - name: rsyslog.d imfile
@@ -62,7 +62,7 @@
     owner: root
     group: root
     mode: 0664
-  when: ansible_distribution_major_version > 5 and rsyslog_imfile
+  when: ansible_distribution_major_version|int > 5 and rsyslog_imfile
   notify: svc restart rsyslog
 
 - name: rsyslog.d dests
@@ -73,7 +73,7 @@
     group: root
     mode: 0664
   with_items: rsyslog_dest
-  when: ansible_distribution_major_version > 5 and rsyslog_dest
+  when: ansible_distribution_major_version|int > 5 and rsyslog_dest
   notify: svc restart rsyslog
 
 
@@ -82,7 +82,7 @@
     name=syslog
     state=stopped
     enabled=no
-  when: ansible_distribution_major_version == "5" and rsyslog_disable_sysklogd
+  when: ansible_distribution_major_version|int == 5 and rsyslog_disable_sysklogd
 
 - name: svc enable, start
   service:
