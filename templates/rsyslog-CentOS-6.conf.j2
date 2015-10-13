@@ -37,10 +37,10 @@ $IncludeConfig {{inc.file}}
 
 
 #### RULES ####
-{% for r in rsyslog_rules %}
+{% for rule in rsyslog_rules %}
 
-# {{r.desc}}
-{{r.filter}}      {{r.desc}}
+# {{rule.desc}}
+{{rule.filter}}      {{rule.dest}}
 {% endfor %}
 
 {% if rsyslog_rule_emerg %}
