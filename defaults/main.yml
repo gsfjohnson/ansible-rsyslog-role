@@ -6,7 +6,41 @@ rsyslog_d_templates: []
 rsyslog_d_gists: []
 rsyslog_dest:
 rsyslog_imfile:
+rsyslog_includes:
+rsyslog_rules:
+  - filter: "#kern.*"
+    dest: "/dev/console"
+    desc: "Log all kernel messages to the console."
 
+  - filter: "*.info;local6.none;mail.none;authpriv.none;cron.none"
+    dest: "/var/log/messages"
+    desc: "Log anything (except mail, local6, authpriv, and cron) of level info or higher."
+
+  - filter: "authpriv.*"
+    dest: "/var/log/secure"
+    dest: "The authpriv file has restricted access."
+
+  - filter: "mail.*"
+    dest: "-/var/log/maillog"
+    desc: "Log all the mail messages in one place."
+
+  - filter: "cron.*"
+    dest: "/var/log/cron"
+    desc: "Log cron stuff"
+
+#  - filter: "*.emerg"
+#    dest: "*"
+#    desc: "Everybody gets emergency messages"
+
+  - filter: "uucp,news.crit"
+    dest: "/var/log/spooler"
+    desc: "Save news errors of level crit and higher in a special file."
+
+  - filter: "local7.*"
+    dest: "/var/log/boot.log"
+    desc: "Save boot messages also to boot.log"
+
+rsyslog_rule_emerg: True
 rsyslog_install: yes
 rsyslog_svc_state: started
 rsyslog_svc_enabled: yes
