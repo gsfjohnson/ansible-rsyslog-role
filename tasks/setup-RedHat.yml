@@ -77,7 +77,7 @@
   notify: svc restart rsyslog
 
 
-- name: disable sysklogd
+- name: stop and disable sysklogd
   service:
     name=syslog
     state=stopped

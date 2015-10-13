@@ -29,7 +29,7 @@ $ActionFileEnableSync on
 
 {% for inc in rsyslog_includes %}
 
-# {{ inc.desc | default(Omit) }}
+# {{ inc.desc | default(None) }}
 $IncludeConfig {{inc.file}}
 {% endfor %}
 
@@ -37,7 +37,7 @@ $IncludeConfig {{inc.file}}
 #### RULES ####
 {% for rule in rsyslog_rules %}
 
-# {{ rule.desc | default(Omit) }}
+# {{ rule.desc | default(None) }}
 {{"%-56s %s" | format(rule.filter,rule.dest) }}
 {% endfor %}
 
