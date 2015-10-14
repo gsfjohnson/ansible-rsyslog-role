@@ -4,7 +4,7 @@ rsyslog_d_absent: []
 rsyslog_d_files: []
 rsyslog_d_templates: []
 rsyslog_d_gists: []
-rsyslog_dest: []
+rsyslog_forwarding: []
 rsyslog_imfile: []
 rsyslog_includes: []
 rsyslog_rules:

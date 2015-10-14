@@ -82,7 +82,7 @@ $InputRunFileMonitor
 # NOTE: Action queues directives only affect the next action definition.
 # Queue up to 128 megs of messages destined for the log server when the log
 # server is not responding and the memory queues fill.
-{% for dest in rsyslog_dest %}
+{% for dest in rsyslog_forwarding %}
 
 $WorkDirectory /var/lib/rsyslog/
 $ActionQueueType LinkedList
