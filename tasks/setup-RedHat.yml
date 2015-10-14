@@ -67,7 +67,7 @@
   when: ansible_distribution_major_version|int > 5 and ( item.state is undefined or item.state != "absent" )
   notify: svc restart rsyslog
 
-- name: remove absent rsyslog.d imfiles
+- name: absent rsyslog.d imfiles
   file:
     dest: "/etc/rsyslog.d/imfile_{{item.name}}.conf"
     state: absent
