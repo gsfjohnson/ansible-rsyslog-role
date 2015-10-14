@@ -46,6 +46,20 @@ $IncludeConfig {{inc.file}}
 *.emerg                                                 *
 {% endif %}
 
+{% if rsyslog_imfile is defined and rsyslog_imfile|length > 0 %}
+#### FILE MONITOR ####
+
+$ModLoad imfile   # Load the imfile input module
+
+{% for item in rsyslog_imfile %}
+
+$InputFileName {{item.file}}
+$InputFileFacility {{item.facility}}
+$InputFileTag {{item.tag}}
+$InputFileStateFile state-{{item.name}}
+$InputRunFileMonitor
+{% endfor %}
+{% endif %}
 
 # ### begin forwarding rule ###
 # The statement between the begin ... end define a SINGLE forwarding
