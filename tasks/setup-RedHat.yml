@@ -55,14 +55,23 @@
 #  when: ansible_distribution_major_version|int > 5
 #  notify: svc restart rsyslog
 
-- name: rsyslog.d imfile
+- name: create rsyslog.d imfiles
   template:
     src: "rsyslog-imfile.conf.j2"
-    dest: "/etc/rsyslog.d/rsyslog-imfile.conf"
+    dest: "/etc/rsyslog.d/imfile_{{item.name}}.conf"
     owner: root
     group: root
     mode: 0664
-  when: ansible_distribution_major_version|int > 5 and rsyslog_imfile
+  with_items: rsyslog_imfile
+  when: ansible_distribution_major_version|int > 5 and ( item.state is undefined or item.state != "absent" )
+  notify: svc restart rsyslog
+
+- name: remove absent rsyslog.d imfiles
+  file:
+    dest: "/etc/rsyslog.d/imfile_{{item.name}}.conf"
+    state: absent
+  with_items: rsyslog_imfile
+  when: ansible_distribution_major_version|int > 5 and item.state is defined and item.state == "absent"
   notify: svc restart rsyslog
 
 - name: rsyslog.d dests
