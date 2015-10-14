@@ -75,17 +75,22 @@
   when: ansible_distribution_major_version|int > 5 and item.state is defined and item.state == "absent"
   notify: svc restart rsyslog
 
-- name: rsyslog.d dests
+- name: create rsyslog.d forwarding
   template:
     src: "rsyslog-dest.conf.j2"
-    dest: "/etc/rsyslog.d/rsyslog-{{item.name}}.conf"
+    dest: "/etc/rsyslog.d/forwarding_{{item.name}}.conf"
     owner: root
     group: root
     mode: 0664
   with_items: rsyslog_dest
-  when: ansible_distribution_major_version|int > 5 and rsyslog_dest
+  when: ansible_distribution_major_version|int > 5 and ( item.state is undefined or item.state != "absent" )
   notify: svc restart rsyslog
 
+- name: absent rsyslog.d forwarding
+  file:
+    dest: "/etc/rsyslog.d/forwarding_{{item.name}}.conf"
+  with_items: rsyslog_dest
+  when: ansible_distribution_major_version|int > 5 and item.state is defined and item.state == "absent"
 
 - name: stop and disable sysklogd
   service:
