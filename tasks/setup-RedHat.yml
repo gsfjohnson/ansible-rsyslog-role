@@ -58,7 +58,7 @@
 
 - name: create rsyslog.d imfiles
   template:
-    src: "rsyslog-imfile.conf.j2"
+    src: "imfile.conf.j2"
     dest: "/etc/rsyslog.d/imfile_{{item.name}}.conf"
     owner: root
     group: root
@@ -77,7 +77,7 @@
 
 - name: create rsyslog.d forwarding
   template:
-    src: "rsyslog-dest.conf.j2"
+    src: "forwarding.conf.j2"
     dest: "/etc/rsyslog.d/forwarding_{{item.name}}.conf"
     owner: root
     group: root
