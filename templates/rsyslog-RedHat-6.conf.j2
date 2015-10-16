@@ -37,10 +37,13 @@ $IncludeConfig {{inc.file}}
 
 
 #### RULES ####
-{% for rule in rsyslog_rules %}
+{% for rule in rsyslog_rules %}{% if rule.desc is defined %}
 
-# {{ rule.desc | default() }}
-{{"%-56s %s" | format(rule.filter,rule.dest) }}
+# {{ rule.desc }}
+{% endif %}{{"%-56s %s" | format(rule.filter,rule.dest) }}
+{% if rule.postdesc is defined %}
+# {{ rule.postdesc }}
+{% endif %}
 {% endfor %}
 
 {% if rsyslog_rule_emerg %}
