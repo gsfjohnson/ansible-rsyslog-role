@@ -10,12 +10,22 @@ $ModLoad imklog   # provides kernel logging support (previously done by rklogd)
 #$ModLoad immark  # provides --MARK-- message capability
 
 # Provides UDP syslog reception
+{% if rsyslog_udp_input is defined and rsyslog_udp_input %}
+$ModLoad imudp
+$UDPServerRun {{ rsyslog_udp_port | default(514) }}
+{% else %}
 #$ModLoad imudp
 #$UDPServerRun 514
+{% endif %}
 
 # Provides TCP syslog reception
+{% if rsyslog_tcp_input is defined and rsyslog_tcp_input %}
+$ModLoad imtcp
+$InputTCPServerRun {{ rsyslog_tcp_port | default(514) }}
+{% else %}
 #$ModLoad imtcp
 #$InputTCPServerRun 514
+{% endif %}
 
 
 #### GLOBAL DIRECTIVES ####
