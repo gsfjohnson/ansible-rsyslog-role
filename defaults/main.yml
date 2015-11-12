@@ -45,4 +45,7 @@ rsyslog_install: yes
 rsyslog_svc_state: started
 rsyslog_svc_enabled: yes
 
+rsyslog_logratelimit_interval: 2
+rsyslog_logratelimit_burst: 50
+
 rsyslog_disable_sysklogd: false

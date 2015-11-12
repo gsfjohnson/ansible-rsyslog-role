@@ -45,6 +45,12 @@ $IncludeConfig /etc/rsyslog.d/*.conf
 $IncludeConfig {{inc.file}}
 {% endfor %}
 
+{% if rsyslog_logratelimit_interval is defined %}
+$SystemLogRateLimitInterval {{rsyslog_logratelimit_interval}}
+{% endif %}
+{% if rsyslog_logratelimit_burst is defined %}
+$SystemLogRateLimitBurst {{rsyslog_logratelimit_burst}}
+{% endif %}
 
 #### RULES ####
 {% for rule in rsyslog_rules %}{% if rule.desc is defined %}
