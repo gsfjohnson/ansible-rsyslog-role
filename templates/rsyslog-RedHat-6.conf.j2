@@ -61,6 +61,14 @@ $SystemLogRateLimitBurst {{rsyslog_logratelimit_burst}}
 # {{ rule.postdesc }}
 {% endif %}
 {% endfor %}
+{% for rule in rsyslog_rules_extra %}{% if rule.desc is defined %}
+
+# {{ rule.desc }}
+{% endif %}{{"%-56s %s" | format(rule.filter,rule.dest) }}
+{% if rule.postdesc is defined %}
+# {{ rule.postdesc }}
+{% endif %}
+{% endfor %}
 
 {% if rsyslog_rule_emerg %}
 # Everybody gets emergency messages
