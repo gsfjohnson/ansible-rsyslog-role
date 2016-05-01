@@ -19,7 +19,7 @@
   file:
     dest: "/etc/rsyslog.d/{{item}}.conf"
     state: absent
-  with_items: rsyslog_d_absent
+  with_items: "{{rsyslog_d_absent}}"
   when: ansible_distribution_major_version|int > 5
   notify: svc restart rsyslog
 
@@ -30,7 +30,7 @@
     owner: root
     group: root
     mode: 0664
-  with_items: rsyslog_d_templates
+  with_items: "{{rsyslog_d_templates}}"
   when: ansible_distribution_major_version|int > 5
   notify: svc restart rsyslog
 
@@ -41,7 +41,7 @@
     owner: root
     group: root
     mode: 0664
-  with_items: rsyslog_d_files
+  with_items: "{{rsyslog_d_files}}"
   when: ansible_distribution_major_version|int > 5
   notify: svc restart rsyslog
 
@@ -52,7 +52,7 @@
 #    owner: root
 #    group: root
 #    mode: 0664
-#  with_items: rsyslog_d_gists
+#  with_items: "{{rsyslog_d_gists}}"
 #  when: ansible_distribution_major_version|int > 5
 #  notify: svc restart rsyslog
 
@@ -63,7 +63,7 @@
     owner: root
     group: root
     mode: 0664
-  with_items: rsyslog_imfile
+  with_items: "{{rsyslog_imfile}}"
   when: ansible_distribution_major_version|int > 5 and ( item.state is undefined or item.state != "absent" )
   notify: svc restart rsyslog
 
@@ -71,7 +71,7 @@
   file:
     dest: "/etc/rsyslog.d/imfile_{{item.name}}.conf"
     state: absent
-  with_items: rsyslog_imfile
+  with_items: "{{rsyslog_imfile}}"
   when: ansible_distribution_major_version|int > 5 and item.state is defined and item.state == "absent"
   notify: svc restart rsyslog
 
@@ -82,14 +82,14 @@
     owner: root
     group: root
     mode: 0664
-  with_items: rsyslog_forwarding
+  with_items: "{{rsyslog_forwarding}}"
   when: ansible_distribution_major_version|int > 5 and ( item.state is undefined or item.state != "absent" )
   notify: svc restart rsyslog
 
 - name: absent rsyslog.d forwarding
   file:
     dest: "/etc/rsyslog.d/forwarding_{{item.name}}.conf"
-  with_items: rsyslog_forwarding
+  with_items: "{{rsyslog_forwarding}}"
   when: ansible_distribution_major_version|int > 5 and item.state is defined and item.state == "absent"
 
 - name: stop and disable sysklogd
